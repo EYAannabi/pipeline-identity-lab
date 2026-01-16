@@ -24,3 +24,7 @@ jobs:
           else
             echo "Secret is available"
           fi
+      - name: Attempt to print secret
+        run: |
+          echo "Secret value is:"
+          echo "$DEMO_SECRET"
