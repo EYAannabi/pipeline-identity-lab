@@ -8,28 +8,19 @@ on:
 permissions: {}
 
 jobs:
-
-  checkout-job:
+  secret-check:
     runs-on: ubuntu-latest
-
     permissions:
       contents: read
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Confirm job runs
-        run: echo "Checkout job completed"
-
-
-  identity-check:
-    runs-on: ubuntu-latest
-    needs: checkout-job
+    env:
+      DEMO_SECRET: ${{ secrets.DEMO_SECRET }}
 
     steps:
-      - name: Show GitHub context
+      - name: Show secret availability
         run: |
-          echo "Actor: $GITHUB_ACTOR"
-          echo "Repository: $GITHUB_REPOSITORY"
-          echo "Workflow: $GITHUB_WORKFLOW"
+          if [ -z "$DEMO_SECRET" ]; then
+            echo "Secret is not available"
+          else
+            echo "Secret is available"
+          fi
