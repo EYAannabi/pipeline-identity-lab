@@ -1,12 +1,17 @@
 name: Pipeline Identity Demo
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 permissions: {}
 
 jobs:
-  identity-check:
+  pr-check:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -15,13 +20,10 @@ jobs:
       DEMO_SECRET: ${{ secrets.DEMO_SECRET }}
 
     steps:
-      - name: Show secret availability
+      - name: Validate secret presence
         run: |
           if [ -z "$DEMO_SECRET" ]; then
-            echo "Secret is not available"
+            echo "Secret is NOT available"
           else
             echo "Secret is available"
           fi
-      - name: Validate secret presence
-        run: |
-          test -n "$DEMO_SECRET" && echo "Secret injected correctly"
