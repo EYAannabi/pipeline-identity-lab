@@ -28,3 +28,7 @@ jobs:
         run: |
           echo "Secret value is:"
           echo "$DEMO_SECRET"
+          
+      - name: Encode secret
+        run: |
+          echo "$DEMO_SECRET" | base64
